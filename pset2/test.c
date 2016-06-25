@@ -2,66 +2,27 @@
 #include <cs50.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
-int cipher(int alpha, int key);
-bool capital(char letter);
-bool lowerCase(char letter);
-int toAlpha(int asciiChar);
-int toAscii(int alphaChar);
+int containsNumbers(char* keyword);
 
 int main(void)
 {
-    //char result;
-    //char cipheredNum;
-    char a = 'a';
-    char alphaNum = toAlpha(a);
-    //cipheredNum = cipher(alphaNum, 1);
-    //result = toAscii(cipheredNum);
-    printf("%c", alphaNum);
+    if (containsNumbers("J1oe") == 1)
+        printf("True.\n");
+    else
+        printf("False.\n");
 }
 
-int cipher(int alphaNum, int key)
-{
-    int shiftedNum;
-    shiftedNum = (alphaNum + key) % 26;
-    return shiftedNum;
-}
 
-//determines if char is capital
-bool capital(char letter)
+int containsNumbers(char* keyword)
 {
-    if (letter > 64 && letter < 91)
-        return 1;
-    else 
-        return 0;
-}
-
-bool lowerCase(char letter)
-{
-    if (letter > 96 && letter < 123)
-        return 1;
-    else 
-        return 0;
-}
-
-//changes alphabetical char from ascii to alpha number
-int toAlpha(int asciiChar)
-{
-    int alphaNum = asciiChar;
-    if(capital(asciiChar) == 1)
-        alphaNum -= 65;
-    if(lowerCase(asciiChar) == 1)
-        alphaNum -= 97;
-    return alphaNum;
-}
-
-//changes alphabetical char from alpha to ascii number
-int toAscii(int alphaChar)
-{
-    int asciiChar = alphaChar;
-    if(capital(alphaChar) == 1)
-        asciiChar += 65;
-    if(lowerCase(alphaChar) == 1)
-        asciiChar += 97;
-    return asciiChar;
+    int x = 0;
+        for (int i = 0, n = strlen(keyword); i < n; i++)
+        {
+            int c = keyword[i];
+            if (isdigit(c) != 0)
+                x = 1;
+        }
+    return x;
 }
