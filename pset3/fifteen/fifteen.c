@@ -115,7 +115,7 @@ int main(int argc, string argv[])
         // log move (for testing)
         fprintf(file, "%i\n", tile);
         fflush(file);
-
+        
         // move if possible, else report illegality
         if (!move(tile))
         {
@@ -157,9 +157,32 @@ void greet(void)
  * Initializes the game's board with tiles numbered 1 through d*d - 1
  * (i.e., fills 2D array with values but does not actually print them).  
  */
-void init(void)
+void init()
 {
-    // TODO
+    int maxVal = d*d - 1;
+    for (int i = 0; i < d; i++)
+    {
+        for(int j = 0; j < d; j++)
+        {
+            if((d % 2) == 0 && maxVal == 2)
+            {
+                board[i][j] = 1;
+            }
+            else if ((d % 2) == 0 && maxVal == 1)
+            {
+                board[i][j] = 2;
+            }
+            else if (maxVal == 0)
+            {
+                board[i][j] = 95;
+            }
+            else
+            {
+            board[i][j] = maxVal;
+            }
+        maxVal -= 1;
+        }
+    }
 }
 
 /**
@@ -167,7 +190,19 @@ void init(void)
  */
 void draw(void)
 {
-    // TODO
+    for (int i = 0; i < d; i++)
+    {
+        for(int j = 0; j < d; j++)
+            if(board[i][j] == 95)
+            {
+                printf("%3c", board[i][j]);
+            }
+            else
+            {
+                printf("%3d ", board[i][j]);
+            }
+        printf("\n");
+    }
 }
 
 /**
@@ -176,8 +211,56 @@ void draw(void)
  */
 bool move(int tile)
 {
-    // TODO
-    return false;
+    int blankTileRow;
+    int blankTileColumn;
+    int i;
+    int j;
+    int temp;
+    
+    for(i = 0; i < d; i++)
+    {
+        for(j = 0; j < d; j++)
+        {
+            if(board[i][j] == 95)
+            {
+            blankTileRow = i;
+            blankTileColumn = j;
+            }
+        }
+    }
+    
+    if(tile == board[blankTileRow + 1][blankTileColumn])
+    {
+        temp = board[blankTileRow][blankTileColumn];
+        board[blankTileRow][blankTileColumn] = tile;
+        board[blankTileRow + 1][blankTileColumn] = temp;
+        return true;
+    }
+    else if(tile == board[blankTileRow - 1][blankTileColumn])
+    {
+        temp = board[blankTileRow][blankTileColumn];
+        board[blankTileRow][blankTileColumn] = tile;
+        board[blankTileRow - 1][blankTileColumn] = temp;
+        return true;
+    }
+    else if(tile == board[blankTileRow][blankTileColumn + 1])
+    {
+        temp = board[blankTileRow][blankTileColumn];
+        board[blankTileRow][blankTileColumn] = tile;
+        board[blankTileRow][blankTileColumn + 1] = temp;
+        return true;
+    }
+    else if(tile == board[blankTileRow][blankTileColumn - 1])
+    {
+        temp = board[blankTileRow][blankTileColumn];
+        board[blankTileRow][blankTileColumn] = tile;
+        board[blankTileRow][blankTileColumn - 1] = temp;
+        return true;
+    }
+    else
+        return false;
+    
+    
 }
 
 /**
@@ -186,6 +269,14 @@ bool move(int tile)
  */
 bool won(void)
 {
-    // TODO
+    int lastNum = board[0][0];
+    for (int i = 0; i < d; i++)
+        {
+            for (int j = 1; j < d; j++)
+            {
+                if(board[i][j] < lastNum)
+                lastNum = board[i][j];
+            }
+        }
     return false;
 }

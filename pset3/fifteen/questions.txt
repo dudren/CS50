@@ -3,7 +3,7 @@ questions.txt
 Computer Science 50
 Problem Set 3
 
-0. TODO
-1. TODO
-2. TODO
-3. TODO
+0. it allows squares with sides of size 3 through 9
+1. two-dimensional array
+2. greet()
+3. init() draw() move() won()
