@@ -172,10 +172,10 @@ void init()
             {
                 board[i][j] = 2;
             }
-            else if (maxVal == 0)
+            /*else if (maxVal == 0)
             {
                 board[i][j] = 95;
-            }
+            }*/
             else
             {
             board[i][j] = maxVal;
@@ -193,15 +193,16 @@ void draw(void)
     for (int i = 0; i < d; i++)
     {
         for(int j = 0; j < d; j++)
-            if(board[i][j] == 95)
+            if(board[i][j] == 0)
             {
-                printf("%3c", board[i][j]);
+                char underScore = 95;
+                printf("%3c", underScore);
             }
             else
             {
                 printf("%3d ", board[i][j]);
             }
-        printf("\n");
+        printf("\n\n");
     }
 }
 
@@ -221,7 +222,7 @@ bool move(int tile)
     {
         for(j = 0; j < d; j++)
         {
-            if(board[i][j] == 95)
+            if(board[i][j] == 0)
             {
             blankTileRow = i;
             blankTileColumn = j;
@@ -268,15 +269,25 @@ bool move(int tile)
  * else false.
  */
 bool won(void)
-{
-    int lastNum = board[0][0];
-    for (int i = 0; i < d; i++)
+{  
+    int lastNum = 0;
+    if (board[d - 1][d - 1] == 0)
+    {
+        for (int i = 0; i < d; i++)
         {
-            for (int j = 1; j < d; j++)
+            for (int j = 0; j < d; j++)
             {
-                if(board[i][j] < lastNum)
-                lastNum = board[i][j];
+                if(board[i][j] < lastNum && board[i][j] != 0)
+                {
+                    return false;
+                    break;
+                }
+                else if(board[i][j] > lastNum)
+                    lastNum = board[i][j];
             }
         }
-    return false;
+        return true;
+    }
+    else
+        return false;
 }
